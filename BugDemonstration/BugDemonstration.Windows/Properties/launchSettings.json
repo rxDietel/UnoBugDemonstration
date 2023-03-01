@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "BugDemonstration.Windows": {
+      "commandName": "MsixPackage"
+    }
+  }
+}
