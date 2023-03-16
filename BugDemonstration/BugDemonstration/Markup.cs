@@ -7,15 +7,17 @@ namespace BugDemonstration;
 [MarkupExtensionReturnType(ReturnType = typeof(Binding))]
 public class MyExtension : MarkupExtension
 {
-    public string _PositionalParameters { get; set; }
+    // ReSharper disable once InconsistentNaming
+    // ReSharper disable once UnusedMember.Global
+    public string? _PositionalParameters { get; set; }
 
     protected override object ProvideValue()
     {
 
         return new Binding
         {
-            Source = BugDemonstration.Model.Instance,
-            Path = new PropertyPath(nameof(BugDemonstration.Model.Value)),
+            Source = Model.Instance,
+            Path = new PropertyPath(nameof(Model.Value)),
             Mode = BindingMode.OneWay
         };
     }

@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using BugDemonstration.Shell;
 
 namespace BugDemonstration
 {
@@ -28,7 +28,7 @@ namespace BugDemonstration
         /// <summary>
         /// Gets the main window of the app.
         /// </summary>
-        internal static Window MainWindow { get; private set; }
+        internal static Window? MainWindow { get; private set; }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -73,13 +73,7 @@ namespace BugDemonstration
             if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
 #endif
             {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(MainPage), args.Arguments);
-                }
+                rootFrame.Content ??= new ShellPage(new ShellViewModel());
                 // Ensure the current window is active
                 MainWindow.Activate();
             }
