@@ -18,6 +18,8 @@ public partial class ShellViewModel : ObservableObject
         Dispatcher = DispatcherQueue.GetForCurrentThread();
 
         ShellItems.Add(_floorPlanRoot);
+        _addFloorPlanEditorUnselected.Command = AddEditorUnselectedCommand;
+        ShellItems.Add(_addFloorPlanEditorUnselected);
         _addFloorPlanEditor.Command = AddEditorCommand;
         ShellItems.Add(_addFloorPlanEditor);
 
@@ -25,6 +27,11 @@ public partial class ShellViewModel : ObservableObject
         {
             Title = "Settings Page",
             ContentControl = new MainPage()
+        });
+        FooterItems.Add(new ShellMenuItem
+        {
+            Title = "Logout",
+            Command = LogoutCommand
         });
         FooterItems.Add(new ShellMenuItem
         {
@@ -46,6 +53,10 @@ public partial class ShellViewModel : ObservableObject
     private readonly ShellMenuItem _addFloorPlanEditor = new()
     {
         Title = "Add Editor"
+    };
+    private readonly ShellMenuItem _addFloorPlanEditorUnselected = new()
+    {
+        Title = "Add Editor Unselected"
     };
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(CurrentPageTitle))]
@@ -88,6 +99,24 @@ public partial class ShellViewModel : ObservableObject
                     ContentControl = new MainPage()
                 });
                 ShowFirstPage(_floorPlanRoot.Children.Reverse());
+            });
+        });
+    }
+
+    [RelayCommand]
+    private async Task AddEditorUnselected()
+    {
+        var index = _floorPlanRoot.Children!.Count + 1;
+
+        await Task.Run(() =>
+        {
+            Dispatcher.TryEnqueue(() =>
+            {
+                _floorPlanRoot.Children.Add(new ShellContentItem
+                {
+                    Title = $"MenuItem {index}",
+                    ContentControl = new MainPage()
+                });
             });
         });
     }
